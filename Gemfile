@@ -51,6 +51,12 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Ruby static code analyzer and formatter, based on the community Ruby style guide.
+  gem "rubocop-rspec", require: false
+
+  # RSpec testing framework for Rails [https://github.com/rspec/rspec-rails]
+  gem "rspec-rails"
 end
 
 group :development do
