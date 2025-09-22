@@ -1,0 +1,1 @@
+# amenetiz_cash_register
