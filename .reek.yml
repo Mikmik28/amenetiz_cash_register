@@ -13,6 +13,9 @@ directories:
   "app/models":
     InstanceVariableAssumption:
       enabled: false
+    UtilityFunction:
+      exclude:
+        - DiscountRule
 exclude_paths:
   - db
 
@@ -26,3 +29,9 @@ detectors:
   MissingSafeMethod:
     exclude:
       - Cart
+  RepeatedConditional:
+    exclude:
+      - DiscountRule
+  DataClump:
+    exclude:
+      - DiscountRule

@@ -41,27 +41,29 @@ class DiscountRule < ApplicationRecord
     end
 
     def apply_bogo_discount(quantity, original_price_cents)
-      if quantity >= threshold_quantity
-        paid_quantity = (quantity + 1) / 2
-        paid_quantity * original_price_cents
-      else
-        quantity * original_price_cents
-      end
+      return full_price(quantity, original_price_cents) unless discount_applies?(quantity)
+
+      paid_quantity = (quantity + 1) / 2
+      paid_quantity * original_price_cents
     end
 
     def apply_bulk_discount(quantity, original_price_cents)
-      if quantity >= threshold_quantity
-        quantity * discount_amount_cents
-      else
-        quantity * original_price_cents
-      end
+      return full_price(quantity, original_price_cents) unless discount_applies?(quantity)
+
+      quantity * discount_amount_cents
     end
 
     def apply_threshold_multiplier_discount(quantity, original_price_cents)
-      if quantity >= threshold_quantity
-        (quantity * original_price_cents * 2) / 3
-      else
-        quantity * original_price_cents
-      end
+      return full_price(quantity, original_price_cents) unless discount_applies?(quantity)
+
+      (quantity * original_price_cents * 2) / 3
+    end
+
+    def discount_applies?(quantity)
+      quantity >= threshold_quantity
+    end
+
+    def full_price(quantity, original_price_cents)
+      quantity * original_price_cents
     end
 end
