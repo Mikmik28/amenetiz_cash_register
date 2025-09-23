@@ -13,7 +13,7 @@ RSpec.describe DiscountRule, type: :model do
       end
     end
   end
-  
+
   describe '#apply_discount' do
     context 'with BOGO rule' do
       let(:bogo_rule) { create(:discount_rule, :bogo, product: product) }
