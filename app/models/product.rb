@@ -1,4 +1,7 @@
 class Product < ApplicationRecord
+  # Associations
+  has_one :discount_rule, dependent: :destroy
+
   # Money integration
   monetize :amount_cents
 

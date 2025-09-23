@@ -58,8 +58,17 @@ group :development, :test do
   # Ruby static code analyzer and formatter, based on the community Ruby style guide.
   gem "rubocop-rspec", require: false
 
+  # Code smell detector for Ruby [https://github.com/troessner/reek]
+  gem "reek", require: false
+
   # RSpec testing framework for Rails [https://github.com/rspec/rspec-rails]
   gem "rspec-rails"
+
+  # Factory Bot for test data generation [https://github.com/thoughtbot/factory_bot_rails]
+  gem "factory_bot_rails"
+
+  # Powerful debugging tool [https://github.com/pry/pry]
+  gem "pry", "~> 0.15.0"
 end
 
 group :development do
