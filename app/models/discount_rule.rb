@@ -23,6 +23,8 @@ class DiscountRule < ApplicationRecord
     case rule_type
     when BOGO
       apply_bogo_discount(quantity, original_price_cents)
+    when BULK_DISCOUNT
+      apply_bulk_discount(quantity, original_price_cents)
     else
       quantity * original_price_cents
     end
@@ -40,6 +42,14 @@ class DiscountRule < ApplicationRecord
       if quantity >= threshold_quantity
         paid_quantity = (quantity + 1) / 2
         paid_quantity * original_price_cents
+      else
+        quantity * original_price_cents
+      end
+    end
+
+    def apply_bulk_discount(quantity, original_price_cents)
+      if quantity >= threshold_quantity
+        quantity * discount_amount_cents
       else
         quantity * original_price_cents
       end
