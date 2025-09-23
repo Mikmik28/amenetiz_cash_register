@@ -19,11 +19,11 @@ RSpec.describe Checkout, type: :service do
     it "calculates the total price of the cart" do
       checkout.scan("GR1")
       checkout.scan("GR1")
-      expect(checkout.total).to eq(Money.from_amount(6.22))
+      expect(checkout.total).to eq(Money.from_amount(3.11))
     end
 
     context "when the product has no discount_rule" do
-      let!(:sr1) { create(:product, :strawberries, amount_cents: 500,discount_rule: nil) }
+      let!(:sr1) { create(:product, code: "SR1", name: "Strawberries", amount_cents: 500) }
 
       it "calculates the total without any discount" do
         checkout.scan("SR1")
@@ -33,7 +33,7 @@ RSpec.describe Checkout, type: :service do
     end
 
     context "when the product has a discount_rule" do
-      let!(:sr1) { create(:product, :strawberries, amount_cents: 500, discount_rule: "bulk_discount") }
+      let!(:sr1) { create(:product, :strawberries, amount_cents: 500) }
 
       it "applies the discount rule to the total" do
         checkout.scan("SR1")
@@ -44,8 +44,8 @@ RSpec.describe Checkout, type: :service do
     end
 
     context "when different products with different discount_rules are in the cart" do
-      let!(:sr1) { create(:product, :strawberries, amount_cents: 500, discount_rule: "bulk_discount") }
-      let!(:cf1) { create(:product, :coffee, amount_cents: 1123, discount_rule: "threshold_multiplier") }
+      let!(:sr1) { create(:product, :strawberries, amount_cents: 500) }
+      let!(:cf1) { create(:product, :coffee, amount_cents: 1123) }
 
       it "applies the respective discount rules to each product" do
         checkout.scan("GR1")
@@ -54,7 +54,7 @@ RSpec.describe Checkout, type: :service do
         checkout.scan("SR1")
         checkout.scan("SR1")
         checkout.scan("CF1")
-        expect(checkout.total).to eq(Money.from_amount(25.95))
+        expect(checkout.total).to eq(Money.from_amount(27.84))
       end
     end
   end
