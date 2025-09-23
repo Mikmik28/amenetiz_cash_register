@@ -7,3 +7,14 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+{
+  "GR1" => { name: "Green Tea", amount_cents: 311 },
+  "SR1" => { name: "Strawberries", amount_cents: 500 },
+  "CF1" => { name: "Coffee", amount_cents: 1123 }
+}.each do |code, attributes|
+  Product.find_or_create_by!(code: code) do |product|
+    product.name = attributes[:name]
+    product.amount_cents = attributes[:amount_cents]
+  end
+end
