@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_23_175357) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_23_201851) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -30,16 +30,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_23_175357) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "discount_rules", force: :cascade do |t|
+    t.string "rule_type", null: false
+    t.integer "threshold_quantity", default: 1
+    t.integer "discount_amount_cents"
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_discount_rules_on_product_id", unique: true
+    t.index ["rule_type"], name: "index_discount_rules_on_rule_type"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "code", null: false
     t.string "name"
     t.integer "amount_cents", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "discount_rule"
-    t.index ["discount_rule"], name: "index_products_on_discount_rule"
   end
 
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
+  add_foreign_key "discount_rules", "products"
 end
