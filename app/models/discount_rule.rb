@@ -19,11 +19,29 @@ class DiscountRule < ApplicationRecord
   # Custom validations
   validate :validate_bulk_discount_amount
 
+  def apply_discount(quantity, original_price_cents)
+    case rule_type
+    when BOGO
+      apply_bogo_discount(quantity, original_price_cents)
+    else
+      quantity * original_price_cents
+    end
+  end
+
   private
 
     def validate_bulk_discount_amount
       if rule_type == BULK_DISCOUNT && discount_amount_cents.blank?
         errors.add(:discount_amount_cents, "must be present for bulk discount")
+      end
+    end
+
+    def apply_bogo_discount(quantity, original_price_cents)
+      if quantity >= threshold_quantity
+        paid_quantity = (quantity + 1) / 2
+        paid_quantity * original_price_cents
+      else
+        quantity * original_price_cents
       end
     end
 end
