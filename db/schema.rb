@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_23_021551) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_23_175357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -36,6 +36,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_23_021551) do
     t.integer "amount_cents", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "discount_rule"
+    t.index ["discount_rule"], name: "index_products_on_discount_rule"
   end
 
   add_foreign_key "cart_items", "carts"

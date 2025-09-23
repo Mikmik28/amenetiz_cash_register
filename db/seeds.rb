@@ -9,12 +9,13 @@
 #   end
 
 {
-  "GR1" => { name: "Green Tea", amount_cents: 311 },
-  "SR1" => { name: "Strawberries", amount_cents: 500 },
-  "CF1" => { name: "Coffee", amount_cents: 1123 }
+  "GR1" => { name: "Green Tea", amount_cents: 311, discount_rule: "bogo" },
+  "SR1" => { name: "Strawberries", amount_cents: 500, discount_rule: "bulk_discount" },
+  "CF1" => { name: "Coffee", amount_cents: 1123, discount_rule: "threshold_multiplier" }
 }.each do |code, attributes|
   Product.find_or_create_by!(code: code) do |product|
     product.name = attributes[:name]
     product.amount_cents = attributes[:amount_cents]
+    product.discount_rule = attributes[:discount_rule]
   end
 end
