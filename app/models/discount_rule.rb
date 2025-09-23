@@ -25,6 +25,8 @@ class DiscountRule < ApplicationRecord
       apply_bogo_discount(quantity, original_price_cents)
     when BULK_DISCOUNT
       apply_bulk_discount(quantity, original_price_cents)
+    when THRESHOLD_MULTIPLIER
+      apply_threshold_multiplier_discount(quantity, original_price_cents)
     else
       quantity * original_price_cents
     end
@@ -50,6 +52,14 @@ class DiscountRule < ApplicationRecord
     def apply_bulk_discount(quantity, original_price_cents)
       if quantity >= threshold_quantity
         quantity * discount_amount_cents
+      else
+        quantity * original_price_cents
+      end
+    end
+
+    def apply_threshold_multiplier_discount(quantity, original_price_cents)
+      if quantity >= threshold_quantity
+        (quantity * original_price_cents * 2) / 3
       else
         quantity * original_price_cents
       end
