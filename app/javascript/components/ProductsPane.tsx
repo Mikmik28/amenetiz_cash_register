@@ -3,9 +3,11 @@ import type { Product } from '../types/product';
 
 interface ProductsPaneProps {
   products: Product[];
+  loading: boolean;
+  onAddToCart: (code: string) => void;
 }
 
-const ProductsPane: React.FC<ProductsPaneProps> = ({ products }) => {
+const ProductsPane: React.FC<ProductsPaneProps> = ({ products, loading, onAddToCart }) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-8">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">Products</h2>
@@ -34,8 +36,11 @@ const ProductsPane: React.FC<ProductsPaneProps> = ({ products }) => {
                 </td>
                 <td className="px-4 py-3">
                   <button
+                    onClick={() => onAddToCart(product.code)}
+                    disabled={loading}
                     className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300 text-white px-4 py-2 rounded text-sm font-medium transition-colors"
                   >
+                    {loading ? 'Adding...' : 'Add to Cart'}
                   </button>
                 </td>
               </tr>
