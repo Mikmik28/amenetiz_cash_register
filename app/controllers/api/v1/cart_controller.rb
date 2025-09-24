@@ -1,4 +1,51 @@
 class Api::V1::CartController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
+  def add
+    code = params[:code]
+    product = Product.find_by(code: code)
+
+    unless product
+      render json: { error: "Product not found" }, status: :not_found
+      return
+    end
+
+    session[:cart] ||= {}
+    session[:cart][code] = (session[:cart][code] || 0) + 1
+
+    render json: {
+      message: "Added #{product.name} to cart",
+      cart: session[:cart],
+      total_items: session[:cart].values.sum
+    }
+  end
+
+  def remove
+    code = params[:code]
+    product = Product.find_by(code: code)
+
+    unless product
+      render json: { error: "Product not found" }, status: :not_found
+      return
+    end
+
+    session[:cart] ||= {}
+
+    if session[:cart][code] && session[:cart][code] > 0
+      session[:cart][code] -= 1
+      if session[:cart][code] == 0
+        session[:cart].delete(code)
+      end
+      render json: {
+        message: "Removed #{product.name} from cart",
+        cart: session[:cart],
+        total_items: session[:cart].values.sum
+      }
+    else
+      render json: { error: "Item not in cart" }, status: :not_found
+    end
+  end
+
   def show
     cart_data = session[:cart] || {}
 

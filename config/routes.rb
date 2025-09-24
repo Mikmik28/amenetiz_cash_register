@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :products, only: :index
+      post "cart/add", to: "cart#add"
+      post "cart/remove", to: "cart#remove"
       get "cart", to: "cart#show"
     end
   end

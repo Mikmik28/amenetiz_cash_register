@@ -1,6 +1,6 @@
 class Api::V1::ProductsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  
+
   def index
     products = Product.includes(:discount_rule).all
     render json: products.map { |product|
