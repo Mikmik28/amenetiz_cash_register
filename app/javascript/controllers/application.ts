@@ -1,0 +1,17 @@
+import { Application } from "@hotwired/stimulus";
+
+const application: Application = Application.start();
+
+// Configure Stimulus development experience
+application.debug = false;
+
+// Extend the global Window interface to include Stimulus
+declare global {
+  interface Window {
+    Stimulus: Application;
+  }
+}
+
+window.Stimulus = application;
+
+export { application };
