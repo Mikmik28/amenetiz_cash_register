@@ -32,6 +32,19 @@ class DiscountRule < ApplicationRecord
     end
   end
 
+  def display_name
+    case rule_type
+    when BOGO
+      "Buy #{threshold_quantity}, get 1 free"
+    when BULK_DISCOUNT
+      "#{threshold_quantity}+ @ #{Money.new(discount_amount_cents).format}"
+    when THRESHOLD_MULTIPLIER
+      "#{threshold_quantity}+ @ 2/3 price"
+    else
+      rule_type.humanize
+    end
+  end
+
   private
 
     def validate_bulk_discount_amount
